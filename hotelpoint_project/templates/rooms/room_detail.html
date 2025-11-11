@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/rooms/room_detail.css' %}" />
+{% endblock %}
+
+{% block title %}
+  Номер {{ room.number }}
+{% endblock %}
+
+{% block content %}
+  <div class="room-detail">
+    <h2>Номер {{ room.number }}</h2>
+    <p>
+      <strong>Тип:</strong> {{ room.get_room_type_display }}
+    </p>
+    <p>
+      <strong>Категория:</strong> {{ room.category.title }}
+    </p>
+    <p>
+      <strong>Базовая цена:</strong> {{ room.base_price }} ₽
+    </p>
+    <a href="{% url 'booking_create' %}?room={{ room.id }}" class="btn">Забронировать</a>
+  </div>
+  <a href="{% url 'room_list' %}" class="back-link">Вернуться к списку номеров</a>
+{% endblock %}

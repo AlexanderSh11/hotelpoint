@@ -1,0 +1,39 @@
+.booking-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #fff;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.booking-table th, .booking-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.booking-table th {
+    background-color: #004080;
+    color: #fff;
+    font-weight: bold;
+}
+
+.booking-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.booking-table tr:hover {
+    background-color: #eef4ff;
+}
+
+.delete-link {
+    color: red;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.delete-link:hover {
+    text-decoration: underline;
+}

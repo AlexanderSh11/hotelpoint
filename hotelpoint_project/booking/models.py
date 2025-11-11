@@ -1,6 +1,7 @@
 from django.db import models
 from rooms.models import Room, BaseModel
 from clients.models import Client
+from django.core.exceptions import ValidationError
 
 
 class Booking(BaseModel):
@@ -41,6 +42,31 @@ class Booking(BaseModel):
     def duration(self):
         """Количество ночей проживания."""
         return (self.check_out - self.check_in).days
+
+    def clean(self):
+        if self.check_in >= self.check_out:
+            raise ValidationError("Дата выезда должна быть позже даты заезда.")
+
+        # Проверка на пересечение с другими бронированиями
+        overlapping = Booking.objects.filter(
+            room=self.room,
+            check_in__lt=self.check_out,
+            check_out__gt=self.check_in,
+        ).exclude(pk=self.pk)
+
+        if overlapping.exists():
+            raise ValidationError("Этот номер уже забронирован на выбранные даты.")
+
+    def save(self, *args, **kwargs):
+        if self.check_in and self.check_out and self.room:
+            duration = self.duration
+            if self.duration < 1:
+                duration = 1
+            self.total_price = self.room.base_price * duration
+
+        self.full_clean()
+        
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'бронирование'
