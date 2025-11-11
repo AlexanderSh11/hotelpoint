@@ -31,7 +31,7 @@
           <tr>
             <td>{{ booking.id }}</td>
             <td>{{ booking.client.name }}</td>
-            <td>№ {{ booking.room.number }}</td>
+            <td><a href="{% url 'room_detail' booking.room.id %}">№ {{ booking.room.number }}</a></td>
             <td>{{ booking.check_in }}</td>
             <td>{{ booking.check_out }}</td>
             <td>{{ booking.total_price|default:'—' }}</td>

@@ -14,6 +14,11 @@
     text-align: left;
 }
 
+.booking-table td a {
+    color: inherit;
+    text-decoration: inherit;
+}
+
 .booking-table th {
     background-color: #004080;
     color: #fff;
