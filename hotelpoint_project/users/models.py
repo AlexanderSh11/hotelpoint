@@ -3,11 +3,13 @@ from django.db import models
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password=None, **extra_fields):
+    def create_user(self, email, username, password=None, **extra_fields):
         if not email:
             raise ValueError('Email обязателен')
+        if not username:
+            raise ValueError('Username обязателен')
         email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
+        user = self.model(email=email, username=username, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -27,6 +29,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, verbose_name='Email')
+    username = models.CharField(max_length=150, unique=True, verbose_name='Имя пользователя')
     first_name = models.CharField(max_length=150, blank=True, verbose_name='Имя')
     last_name = models.CharField(max_length=150, blank=True, verbose_name='Фамилия')
     is_staff = models.BooleanField(default=False, verbose_name='Сотрудник')
@@ -35,12 +38,12 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
 
     class Meta:
         verbose_name = 'пользователь'
         verbose_name_plural = 'Пользователи'
 
     def __str__(self):
-        return self.email
+        return f"{self.email} {self.username}"
