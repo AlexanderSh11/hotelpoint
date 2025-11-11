@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/booking/booking_form.css' %}" />
+{% endblock %}
+
+{% block title %}
+  Бронирование номера
+{% endblock %}
+
+{% block content %}
+  <h2>Оформление бронирования</h2>
+
+  <form method="post" class="booking-form">
+    {% csrf_token %}
+    <fieldset>
+      <legend>Информация о клиенте</legend>
+      {{ form.name.label_tag }} {{ form.name }}
+      {{ form.email.label_tag }} {{ form.email }}
+      {{ form.phone.label_tag }} {{ form.phone }}
+    </fieldset>
+
+    <fieldset>
+      <legend>Параметры бронирования</legend>
+      {{ form.room.label_tag }} {{ form.room }}
+      {{ form.check_in.label_tag }} {{ form.check_in }}
+      {{ form.check_out.label_tag }} {{ form.check_out }}
+      {{ form.has_child_bed.label_tag }} {{ form.has_child_bed }}
+    </fieldset>
+
+    <button type="submit" class="btn">Забронировать</button>
+  </form>
+{% endblock %}
