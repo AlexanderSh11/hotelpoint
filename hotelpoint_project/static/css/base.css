@@ -42,6 +42,10 @@ footer p {
     margin: 0 auto;
 }
 
+h2 {
+    margin-bottom: 30px;
+}
+
 header {
     background-color: #004080;
     color: #fff;
