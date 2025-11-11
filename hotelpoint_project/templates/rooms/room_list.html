@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/rooms/room_list.css' %}">
+{% endblock %}
+
+{% block title %}Список номеров{% endblock %}
+
+{% block content %}
+<h2>Доступные номера</h2>
+<div class="room-list">
+    {% for room in rooms %}
+        <div class="room-card">
+            <h3>Номер {{ room.number }}</h3>
+            <p>Тип: {{ room.get_room_type_display }}</p>
+            <p>Категория: {{ room.category.title }}</p>
+            <p>Цена: {{ room.base_price }} ₽</p>
+        </div>
+    {% empty %}
+        <p>Нет доступных номеров</p>
+    {% endfor %}
+</div>
+{% endblock %}

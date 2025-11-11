@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from django.views.generic import ListView, DetailView
+from .models import Room
 
-# Create your views here.
+class RoomListView(ListView):
+    model = Room
+    context_object_name = 'rooms'
+    queryset = Room.objects.select_related('category').all()
