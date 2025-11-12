@@ -2,6 +2,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DeleteView
 from .models import Booking
 from .forms import BookingForm
+from .models import Client
 
 
 class BookingListView(ListView):
@@ -9,6 +10,23 @@ class BookingListView(ListView):
     template_name = 'booking/booking_list.html'
     context_object_name = 'bookings'
     ordering = ['-check_in']
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        client_id = self.request.GET.get('client_id')
+        if client_id:
+            queryset = queryset.filter(client_id=client_id)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        client_id = self.request.GET.get('client_id')
+        if client_id:
+            try:
+                context['current_client'] = Client.objects.get(id=client_id)
+            except Client.DoesNotExist:
+                context['current_client'] = None
+        return context
 
 
 class BookingCreateView(CreateView):

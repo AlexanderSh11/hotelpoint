@@ -2,54 +2,68 @@
 {% load static %}
 
 {% block extra_css %}
-  <link rel="stylesheet" href="{% static 'css/booking/booking_list.css' %}" />
+<link rel="stylesheet" href="{% static 'css/booking/booking_list.css' %}" />
 {% endblock %}
 
 {% block title %}
-  Список бронирований
+Список бронирований
 {% endblock %}
 
 {% block content %}
-  <h2>Список всех бронирований</h2>
-
-  {% if bookings %}
-    <table class="booking-table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Клиент</th>
-          <th>Номер</th>
-          <th>Заезд</th>
-          <th>Выезд</th>
-          <th>Цена</th>
-          <th>Детская кровать</th>
-          <th>Опции</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for booking in bookings %}
-          <tr>
-            <td>{{ booking.id }}</td>
-            <td>{{ booking.client.name }}</td>
-            <td>№ {{ booking.room.number }}</td>
-            <td>{{ booking.check_in }}</td>
-            <td>{{ booking.check_out }}</td>
-            <td>{{ booking.total_price|default:'—' }}</td>
-            <td>
-              {% if booking.has_child_bed %}
-                Да
-              {% else %}
-                Нет
-              {% endif %}
-            </td>
-            <td>
-              <a href="{% url 'booking_delete' booking.id %}" class="delete-link">Удалить</a>
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+<h2>
+  {% if current_client %}
+  Бронирования клиента: {{ current_client.name }}
+  <br>
+  <a href="{% url 'booking_list' %}" class="show-all-link">Показать все бронирования</a>
   {% else %}
-    <p>Пока нет бронирований.</p>
+  Список всех бронирований
   {% endif %}
+</h2>
+
+{% if bookings %}
+<table class="booking-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Клиент</th>
+      <th>Номер</th>
+      <th>Заезд</th>
+      <th>Выезд</th>
+      <th>Цена</th>
+      <th>Детская кровать</th>
+      <th>Опции</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for booking in bookings %}
+    <tr>
+      <td>{{ booking.id }}</td>
+      <td>{{ booking.client.name }}</td>
+      <td>№ {{ booking.room.number }}</td>
+      <td>{{ booking.check_in }}</td>
+      <td>{{ booking.check_out }}</td>
+      <td>{{ booking.total_price|default:'—' }}</td>
+      <td>
+        {% if booking.has_child_bed %}
+        Да
+        {% else %}
+        Нет
+        {% endif %}
+      </td>
+      <td>
+        <a href="{% url 'booking_delete' booking.id %}" class="delete-link">Удалить</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>
+  {% if current_client %}
+  У клиента {{ current_client.name }} пока нет бронирований.
+  {% else %}
+  Пока нет бронирований.
+  {% endif %}
+</p>
+{% endif %}
 {% endblock %}
