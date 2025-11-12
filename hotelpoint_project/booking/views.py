@@ -37,7 +37,7 @@ class BookingCreateView(CreateView):
 
     def get_initial(self):
         initial = super().get_initial()
-        room_id = self.request.GET.get('room')
+        room_id = self.kwargs.get('room_id')
         if room_id:
             initial['room'] = room_id
         return initial
