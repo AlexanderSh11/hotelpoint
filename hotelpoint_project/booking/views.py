@@ -13,18 +13,18 @@ class BookingListView(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        client_id = self.request.GET.get('client_id')
+        client_id = self.kwargs.get('client_id')
         if client_id:
             queryset = queryset.filter(client_id=client_id)
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        client_id = self.request.GET.get('client_id')
+        client_id = self.kwargs.get('client_id')
         if client_id:
             try:
                 context['current_client'] = Client.objects.get(id=client_id)
-            except Client.DoesNotExist:
+            except (Client.DoesNotExist, ValueError):
                 context['current_client'] = None
         return context
 

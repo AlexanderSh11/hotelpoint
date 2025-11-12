@@ -38,7 +38,7 @@
         {% for booking in bookings %}
           <tr>
             <td>{{ booking.id }}</td>
-            <td><a href="{% url 'booking_list' %}?client_id={{ booking.client.id }}">{{ booking.client.name }}</a></td>
+            <td><a href="{% url 'booking_list_by_client' booking.client.id %}">{{ booking.client.name }}</a></td>
             <td><a href="{% url 'room_detail' booking.room.id %}">№ {{ booking.room.number }}</a></td>
             <td>{{ booking.check_in }}</td>
             <td>{{ booking.check_out }}</td>
