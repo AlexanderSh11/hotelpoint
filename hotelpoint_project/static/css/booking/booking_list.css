@@ -33,7 +33,7 @@
     background-color: #eef4ff;
 }
 
-.delete-link, .show-all-link {
+.delete-link, .show-all-link, .show-object-link {
     text-decoration: none;
     font-weight: bold;
 }
@@ -46,6 +46,10 @@
     color: #004080;
 }
 
-.delete-link:hover, .show-all-link:hover {
+.show-object-link {
+    color: #000000;
+}
+
+.delete-link:hover, .show-all-link:hover, .show-object-link:hover {
     text-decoration: underline;
 }
