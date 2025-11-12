@@ -14,7 +14,7 @@
     text-align: left;
 }
 
-.booking-table td a {
+.booking-table td a:not(.delete-link) {
     color: inherit;
     text-decoration: inherit;
 }
