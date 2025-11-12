@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/clients/client_list.css' %}" />
+{% endblock %}
+
+{% block title %}
+  Список гостей
+{% endblock %}
+
+{% block content %}
+  <h2>Список гостей</h2>
+
+  {% if clients %}
+    <table class="client-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Полное имя</th>
+          <th>Телефон</th>
+          <th>Email</th>
+          <th>Опции</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for client in clients %}
+          <tr>
+            <td>{{ client.id }}</td>
+            <td>{{ client.name }}</td>
+            <td>{{ client.phone }}</td>
+            <td>{{ client.email }}</td>
+            <td><a href="{% url 'booking_list' %}?client_id={{ client.id }}" class="booking-link">Бронирования</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Пока нет гостей.</p>
+  {% endif %}
+{% endblock %}

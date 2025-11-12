@@ -2,15 +2,23 @@
 {% load static %}
 
 {% block extra_css %}
-  <link rel="stylesheet" href="{% static 'css/booking/booking_list.css' %}" />
+<link rel="stylesheet" href="{% static 'css/booking/booking_list.css' %}" />
 {% endblock %}
 
 {% block title %}
-  Список бронирований
+Список бронирований
 {% endblock %}
 
 {% block content %}
-  <h2>Список всех бронирований</h2>
+<h2>
+  {% if current_client %}
+  Бронирования клиента: {{ current_client.name }}
+  <br>
+  <a href="{% url 'booking_list' %}" class="show-all-link">Показать все бронирования</a>
+  {% else %}
+  Список всех бронирований
+  {% endif %}
+</h2>
 
   {% if bookings %}
     <table class="booking-table">
