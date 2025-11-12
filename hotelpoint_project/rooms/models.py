@@ -86,27 +86,22 @@ class RoomPrice(BaseModel):
         ('sun', 'Воскресенье'),
     ]
 
-    room = models.ForeignKey(
-        Room,
-        on_delete=models.CASCADE,
-        related_name='prices',
-        verbose_name='Номер'
-    )
     weekday = models.CharField(
+        unique=True,
         max_length=3,
         choices=WEEKDAY_CHOICES,
         verbose_name='День недели'
     )
-    price = models.DecimalField(
-        max_digits=8,
-        decimal_places=2,
-        verbose_name='Цена (руб.)'
+    percentage = models.IntegerField(
+        default=100,
+        verbose_name='Процент от базовой цены (%)',
+        help_text='От 0 (бесплатно) до 200 (удвоенная базовая цена)'
     )
 
     class Meta:
         verbose_name = 'цена за день недели'
         verbose_name_plural = 'Цены по дням недели'
-        unique_together = ('room', 'weekday')
+        ordering = ['weekday']
 
     def __str__(self):
-        return f'{self.room} - {self.weekday}: {self.price} (руб.)'
+        return f'{self.get_weekday_display()}: {self.percentage}% от базовой цены'
