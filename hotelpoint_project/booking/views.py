@@ -1,4 +1,5 @@
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, ListView, DeleteView
 from rooms.models import Room
 from .models import Booking
@@ -6,7 +7,7 @@ from .forms import BookingForm
 from clients.models import Client
 
 
-class BookingListView(ListView):
+class BookingListView(LoginRequiredMixin, ListView):
     model = Booking
     template_name = 'booking/booking_list.html'
     context_object_name = 'bookings'
@@ -39,7 +40,7 @@ class BookingListView(ListView):
         return context
 
 
-class BookingCreateView(CreateView):
+class BookingCreateView(LoginRequiredMixin, CreateView):
     model = Booking
     form_class = BookingForm
     template_name = 'booking/booking_form.html'
@@ -95,7 +96,7 @@ class BookingCreateView(CreateView):
         return super().form_valid(form)
 
 
-class BookingDeleteView(DeleteView):
+class BookingDeleteView(LoginRequiredMixin, DeleteView):
     model = Booking
     template_name = 'booking/booking_delete.html'
     success_url = reverse_lazy('booking_list')

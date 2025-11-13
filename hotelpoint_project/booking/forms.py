@@ -7,7 +7,7 @@ from rooms.models import Room
 class BookingForm(forms.ModelForm):
     first_name = forms.CharField(label='Имя', max_length=50)
     last_name = forms.CharField(label='Фамилия', max_length=50)
-    middle_name = forms.CharField(label='Отчество', max_length=50)
+    middle_name = forms.CharField(label='Отчество', required=False, max_length=50)
     email = forms.EmailField(label='Email')
     phone = forms.CharField(label='Телефон', max_length=20)
     calculate = forms.BooleanField(

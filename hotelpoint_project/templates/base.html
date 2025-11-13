@@ -11,6 +11,7 @@
     </title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}" />
     {% block extra_css %}
+
     {% endblock %}
   </head>
   <body>
@@ -22,12 +23,22 @@
             <a href="{% url 'room_list' %}">Номера</a>
             <a href="{% url 'booking_list' %}">Бронирования</a>
             <a href="{% url 'client_list' %}">Гости</a>
+            {% if user.is_authenticated %}
+              <form method="post" action="{% url 'logout' %}" id="logout-form" style="display: none;">
+                {% csrf_token %}
+              </form>
+              <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выйти</a>
+            {% else %}
+              <a href="{% url 'login' %}">Войти</a>
+              <a href="{% url 'register' %}">Регистрация</a>
+            {% endif %}
           </nav>
         </div>
       </header>
 
       <main class="container">
         {% block content %}
+
         {% endblock %}
       </main>
 
