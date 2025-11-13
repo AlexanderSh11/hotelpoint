@@ -51,6 +51,41 @@ class BookingCreateView(CreateView):
         if room_id:
             initial['room'] = room_id
         return initial
+    
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        form = self.get_form()
+        
+        if 'calculate' in request.POST:
+            if form.is_valid():
+                booking = form.save(commit=False)
+                calculated_price = booking.calculate_total_price()
+                duration = booking.duration
+                
+                return self.render_to_response(
+                    self.get_context_data(
+                        form=form,
+                        show_calculation=True,
+                        calculated_price=calculated_price,
+                        duration=duration
+                    )
+                )
+            else:
+                return self.form_invalid(form)
+        
+        elif 'book' in request.POST:
+            if form.is_valid():
+                return self.form_valid(form)
+            else:
+                return self.form_invalid(form)
+        
+        return self.form_invalid(form)
+
+    def form_valid(self, form):
+        booking = form.save(commit=False)
+        booking.total_price = booking.calculate_total_price()
+        booking.save()
+        return super().form_valid(form)
 
 
 class BookingDeleteView(DeleteView):

@@ -16,7 +16,9 @@
     {% csrf_token %}
     <fieldset>
       <legend>Информация о клиенте</legend>
-      {{ form.name.label_tag }} {{ form.name }}
+      {{ form.first_name.label_tag }} {{ form.first_name }}
+      {{ form.last_name.label_tag }} {{ form.last_name }}
+      {{ form.middle_name.label_tag }} {{ form.middle_name }}
       {{ form.email.label_tag }} {{ form.email }}
       {{ form.phone.label_tag }} {{ form.phone }}
     </fieldset>
@@ -28,7 +30,35 @@
       {{ form.check_out.label_tag }} {{ form.check_out }}
       {{ form.has_child_bed.label_tag }} {{ form.has_child_bed }}
     </fieldset>
-
-    <button type="submit" class="btn">Забронировать</button>
+    <div class="pricing-info">
+      <div class="pricing-header">Информация о ценах и скидках</div>
+      
+      <div class="price-category">
+        <strong>Динамическое ценообразование:</strong>
+        <br>Понедельник-вторник: 80% от базовой стоимости
+        <br>Пятница-воскресенье: 120% от базовой стоимости
+      </div>
+      
+      <div class="price-category">
+        <strong>Система скидок:</strong>
+        <ul class="discount-list">
+          <li>Более 3 дней - 10% от полной стоимости</li>
+          <li>Более 5 дней - 15% от полной стоимости</li>
+          <li>Более 7 дней - 20% от полной стоимости</li>
+        </ul>
+      </div>
+    </div>
+    {% if show_calculation %}
+      <div class="calculation-result">
+        <h3>Результат расчета</h3>
+        <p>
+          <strong>Стоимость бронирования: {{ calculated_price }} руб.</strong>
+        </p>
+        <p>Продолжительность: {{ form.instance.duration }} ночей</p>
+        <p>Теперь вы можете подтвердить бронирование</p>
+      </div>
+    {% endif %}
+    <button type="submit" name="calculate" class="btn">Рассчитать стоимость</button>
+    <button type="submit" name="book" class="btn">Забронировать</button>
   </form>
 {% endblock %}
