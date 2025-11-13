@@ -84,6 +84,13 @@ class BookingCreateView(CreateView):
     def form_valid(self, form):
         booking = form.save(commit=False)
         booking.total_price = booking.calculate_total_price()
+        
+        try:
+            booking.full_clean()
+        except Exception as e:
+            form.add_error(None, e)
+            return self.form_invalid(form)
+        
         booking.save()
         return super().form_valid(form)
 

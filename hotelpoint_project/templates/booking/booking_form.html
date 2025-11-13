@@ -13,6 +13,16 @@
   <h2>Оформление бронирования</h2>
 
   <form method="post" class="booking-form">
+    {% if form.non_field_errors %}
+      <div class="form-errors">
+        <div class="error-messages">
+          {% for error in form.non_field_errors %}
+            <div class="error-message">{{ error }}</div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
     {% csrf_token %}
     <fieldset>
       <legend>Информация о клиенте</legend>
@@ -32,13 +42,13 @@
     </fieldset>
     <div class="pricing-info">
       <div class="pricing-header">Информация о ценах и скидках</div>
-      
+
       <div class="price-category">
         <strong>Динамическое ценообразование:</strong>
-        <br>Понедельник-вторник: 80% от базовой стоимости
-        <br>Пятница-воскресенье: 120% от базовой стоимости
+        <br />Понедельник-вторник: 80% от базовой стоимости
+        <br />Пятница-воскресенье: 120% от базовой стоимости
       </div>
-      
+
       <div class="price-category">
         <strong>Система скидок:</strong>
         <ul class="discount-list">
