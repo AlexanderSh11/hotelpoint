@@ -10,6 +10,11 @@
 {% endblock %}
 
 {% block content %}
+  <form method="get" class="date-filter-form">
+    <label>Дата заезда:<input type="date" name="check_in" value="{{ request.GET.check_in }}" /></label>
+    <label>Дата выезда:<input type="date" name="check_out" value="{{ request.GET.check_out }}" /></label>
+    <button type="submit">Показать</button>
+  </form>
   <h2>Доступные номера</h2>
   <div class="room-list">
     {% for room in rooms %}

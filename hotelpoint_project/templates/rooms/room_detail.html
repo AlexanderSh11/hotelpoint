@@ -21,7 +21,8 @@
     <p>
       <strong>Базовая цена:</strong> {{ room.base_price }} ₽
     </p>
-    <a href="{% url 'booking_create' %}?room={{ room.id }}" class="btn">Забронировать</a>
+    <a href="{% url 'booking_create_with_room' room.id %}" class="btn">Забронировать</a>
+    <a href="{% url 'booking_list_by_room' room.id %}" class="btn">Посмотреть бронирования</a>
   </div>
   <a href="{% url 'room_list' %}" class="back-link">Вернуться к списку номеров</a>
 {% endblock %}

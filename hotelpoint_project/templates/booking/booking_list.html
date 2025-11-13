@@ -2,15 +2,27 @@
 {% load static %}
 
 {% block extra_css %}
-  <link rel="stylesheet" href="{% static 'css/booking/booking_list.css' %}" />
+<link rel="stylesheet" href="{% static 'css/booking/booking_list.css' %}" />
 {% endblock %}
 
 {% block title %}
-  Список бронирований
+Список бронирований
 {% endblock %}
 
 {% block content %}
-  <h2>Список всех бронирований</h2>
+<h2>
+  {% if current_client %}
+  Бронирования клиента: {{ current_client.name }}
+  <br>
+  <a href="{% url 'booking_list' %}" class="show-all-link">Показать все бронирования</a>
+  {% elif current_room %}
+  Бронирования номера: <a href="{% url 'room_detail' current_room.id %}" class="show-object-link">№ {{ current_room.number }}</a>
+  <br>
+  <a href="{% url 'booking_list' %}" class="show-all-link">Показать все бронирования</a>
+  {% else %}
+  Список всех бронирований
+  {% endif %}
+</h2>
 
   {% if bookings %}
     <table class="booking-table">
@@ -30,8 +42,8 @@
         {% for booking in bookings %}
           <tr>
             <td>{{ booking.id }}</td>
-            <td>{{ booking.client.name }}</td>
-            <td>№ {{ booking.room.number }}</td>
+            <td><a href="{% url 'booking_list_by_client' booking.client.id %}">{{ booking.client.name }}</a></td>
+            <td><a href="{% url 'booking_list_by_room' booking.room.id %}">№ {{ booking.room.number }}</a></td>
             <td>{{ booking.check_in }}</td>
             <td>{{ booking.check_out }}</td>
             <td>{{ booking.total_price|default:'—' }}</td>
