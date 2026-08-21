@@ -69,7 +69,7 @@
 
 * **Бэкенд:** Django (Python)
 * **База данных:** SQLite
-* **Frontend:** HTML, CSS, JavaScript (Bootstrap)
+* **Frontend:** HTML, CSS
 
 ## Установка и запуск
 
